@@ -3,8 +3,16 @@ main: me.MrForknSpoon.TourHelper.TourHelper
 version: 0.1
 commands:
   '':
-    description: Command to send the line of your choice
-    usage: Type / <number> to send line <number>
+    description: Send the line of your choice
+    usage: |
+      /<command> - Send the next line
+      /<command> <number> - Send the line <number>
   tourhelper:
     description: TourHelper base command
-    usage: Type /tourhelper ? for help
+    usage: |
+      /<command> upload <url> - Upload <url> as your new lines
+      /<command> remove - Remove all of your lines
+      /<command> remove <player> - Remove all of <player>'s lines
+      /<command> view <number> - View a preview of line <number>
+      /<command> edit <number> (new line) - Set your line <number> as (new line)
+      /<command> edit <number> - Remove line <number> from your lines
