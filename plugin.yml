@@ -1,0 +1,10 @@
+name: TourHelper
+main: me.MrForknSpoon.TourHelper.TourHelper
+version: 0.1
+commands:
+  '':
+    description: Command to send the line of your choice
+    usage: Type / <number> to send line <number>
+  tourhelper:
+    description: TourHelper base command
+    usage: Type /tourhelper ? for help
