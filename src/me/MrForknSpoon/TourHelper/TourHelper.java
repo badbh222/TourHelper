@@ -131,7 +131,7 @@ public class TourHelper extends JavaPlugin{
 			if (sender instanceof Player){
 				Player player = (Player) sender;
 				if (args.length == 0){
-					if (player.hasPermission("tourhelper.upload") || player.hasPermission("tourhelper.remove.other")) player.sendMessage(ChatColor.RED + "Invalid Command. Use '" + ChatColor.WHITE + "/" + cmdLabel + " upload <url>" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " remove [player]" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " edit <line> [new line]" + ChatColor.RED + "'.");
+					if (player.hasPermission("tourhelper.upload") || player.hasPermission("tourhelper.remove.other")) player.sendMessage(ChatColor.RED + "Invalid Command. Use '" + ChatColor.WHITE + "/" + cmdLabel + " upload <url>" + ChatColor.RED + "', '" + ChatColor.WHITE + "/" + cmdLabel + " remove [player]" + ChatColor.RED + "', '" + ChatColor.WHITE + "/" + cmdLabel + " view <line>" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " edit <line> [new line]" + ChatColor.RED + "'.");
 					else player.sendMessage(ChatColor.RED + "You do not have " + ChatColor.WHITE + "permission" + ChatColor.RED + " to do this.");
 				}else if (args.length == 1){
 					if (args[0].equalsIgnoreCase("remove")){
@@ -148,7 +148,7 @@ public class TourHelper extends JavaPlugin{
 							player.sendMessage(ChatColor.RED + "You do not have " + ChatColor.WHITE + "permission" + ChatColor.RED + " to do this.");
 						}
 					}else{
-						if (player.hasPermission("tourhelper.upload") || player.hasPermission("tourhelper.remove.other")) player.sendMessage(ChatColor.RED + "Invalid Command. Use '" + ChatColor.WHITE + "/" + cmdLabel + " upload <url>" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " remove [player]" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " edit <line> [new line]" + ChatColor.RED + "'.");
+						if (player.hasPermission("tourhelper.upload") || player.hasPermission("tourhelper.remove.other")) player.sendMessage(ChatColor.RED + "Invalid Command. Use '" + ChatColor.WHITE + "/" + cmdLabel + " upload <url>" + ChatColor.RED + "', '" + ChatColor.WHITE + "/" + cmdLabel + " remove [player]" + ChatColor.RED + "', '" + ChatColor.WHITE + "/" + cmdLabel + " view <line>" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " edit <line> [new line]" + ChatColor.RED + "'.");
 						else player.sendMessage(ChatColor.RED + "You do not have " + ChatColor.WHITE + "permission" + ChatColor.RED + " to do this.");
 					}
 				}else if (args.length == 2){
@@ -175,12 +175,12 @@ public class TourHelper extends JavaPlugin{
 					}else if (args[0].equalsIgnoreCase("view")){
 						if (player.hasPermission("tourhelper.upload")){
 							try{
-								int lineNum = Integer.parseInt(args[0]);
+								int lineNum = Integer.parseInt(args[1]);
 								if (lineNum > 0){
 									if (config.contains(player.getName().toLowerCase())){
 										if (config.contains(player.getName().toLowerCase() + "." + lineNum)){
 											if (config.getString(player.getName().toLowerCase() + "." + lineNum) != null && config.getString(player.getName().toLowerCase() + "." + lineNum).length() > 0){
-												player.sendMessage(ChatColor.GREEN + "Line " + ChatColor.WHITE + "#" + lineNum + ChatColor.GREEN + ": " + config.getString(player.getName().toLowerCase() + "." + lineNum));
+												player.sendMessage(ChatColor.GREEN + "Line " + ChatColor.WHITE + "#" + lineNum + ChatColor.GREEN + ": " + ChatColor.WHITE + config.getString(player.getName().toLowerCase() + "." + lineNum));
 											}else{
 												player.sendMessage(ChatColor.RED + "Line " + ChatColor.WHITE + "#" + lineNum + ChatColor.RED + " is not valid.");
 											}
@@ -190,7 +190,17 @@ public class TourHelper extends JavaPlugin{
 									}else if (config.contains("default")){
 										if (config.contains("default." + lineNum)){
 											if (config.getString("default." + lineNum) != null && config.getString("default." + lineNum).length() > 0){
-												player.sendMessage(ChatColor.GREEN + "Default line " + ChatColor.WHITE + "#" + lineNum + ChatColor.GREEN + ": " + config.getString("default." + lineNum));
+												String line = config.getString("default." + lineNum);
+												if (player.hasPermission("essentials.chat.color")){
+													line = line.replaceAll("&([0-9a-fA-F])", "\u00A7$1");
+												}
+												if (player.hasPermission("essentials.chat.format")){
+													line = line.replaceAll("&([l-orL-OR])", "\u00A7$1");
+												}
+												if (player.hasPermission("essentials.chat.magic")){
+													line = line.replaceAll("&([Kk])", "\u00A7$1");
+												}
+												player.sendMessage(ChatColor.GREEN + "Default line " + ChatColor.WHITE + "#" + lineNum + ChatColor.GREEN + ": " + ChatColor.WHITE + line);
 											}else{
 												player.sendMessage(ChatColor.RED + "Default line " + ChatColor.WHITE + "#" + lineNum + ChatColor.RED + " is not valid.");
 											}
@@ -235,7 +245,7 @@ public class TourHelper extends JavaPlugin{
 							player.sendMessage(ChatColor.RED + "You do not have " + ChatColor.WHITE + "permission" + ChatColor.RED + " to do this.");
 						}
 					}else{
-						if (player.hasPermission("tourhelper.upload") || player.hasPermission("tourhelper.remove.other")) player.sendMessage(ChatColor.RED + "Invalid Command. Use '" + ChatColor.WHITE + "/" + cmdLabel + " upload <url>" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " remove [player]" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " edit <line> [new line]" + ChatColor.RED + "'.");
+						if (player.hasPermission("tourhelper.upload") || player.hasPermission("tourhelper.remove.other")) player.sendMessage(ChatColor.RED + "Invalid Command. Use '" + ChatColor.WHITE + "/" + cmdLabel + " upload <url>" + ChatColor.RED + "', '" + ChatColor.WHITE + "/" + cmdLabel + " remove [player]" + ChatColor.RED + "', '" + ChatColor.WHITE + "/" + cmdLabel + " view <line>" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " edit <line> [new line]" + ChatColor.RED + "'.");
 						else player.sendMessage(ChatColor.RED + "You do not have " + ChatColor.WHITE + "permission" + ChatColor.RED + " to do this.");
 					}
 				}else if (args.length >= 3){
@@ -271,11 +281,11 @@ public class TourHelper extends JavaPlugin{
 							player.sendMessage(ChatColor.RED + "You do not have " + ChatColor.WHITE + "permission" + ChatColor.RED + " to do this.");
 						}
 					}else{
-						if (player.hasPermission("tourhelper.upload") || player.hasPermission("tourhelper.remove.other")) player.sendMessage(ChatColor.RED + "Invalid Command. Use '" + ChatColor.WHITE + "/" + cmdLabel + " upload <url>" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " remove [player]" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " edit <line> [new line]" + ChatColor.RED + "'.");
+						if (player.hasPermission("tourhelper.upload") || player.hasPermission("tourhelper.remove.other")) player.sendMessage(ChatColor.RED + "Invalid Command. Use '" + ChatColor.WHITE + "/" + cmdLabel + " upload <url>" + ChatColor.RED + "', '" + ChatColor.WHITE + "/" + cmdLabel + " remove [player]" + ChatColor.RED + "', '" + ChatColor.WHITE + "/" + cmdLabel + " view <line>" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " edit <line> [new line]" + ChatColor.RED + "'.");
 						else player.sendMessage(ChatColor.RED + "You do not have " + ChatColor.WHITE + "permission" + ChatColor.RED + " to do this.");
 					}
 				}else{
-					if (player.hasPermission("tourhelper.upload") || player.hasPermission("tourhelper.remove.other")) player.sendMessage(ChatColor.RED + "Invalid Command. Use '" + ChatColor.WHITE + "/" + cmdLabel + " upload <url>" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " remove [player]" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " edit <line> [new line]" + ChatColor.RED + "'.");
+					if (player.hasPermission("tourhelper.upload") || player.hasPermission("tourhelper.remove.other")) player.sendMessage(ChatColor.RED + "Invalid Command. Use '" + ChatColor.WHITE + "/" + cmdLabel + " upload <url>" + ChatColor.RED + "', '" + ChatColor.WHITE + "/" + cmdLabel + " remove [player]" + ChatColor.RED + "', '" + ChatColor.WHITE + "/" + cmdLabel + " view <line>" + ChatColor.RED + "' or '" + ChatColor.WHITE + "/" + cmdLabel + " edit <line> [new line]" + ChatColor.RED + "'.");
 					else player.sendMessage(ChatColor.RED + "You do not have " + ChatColor.WHITE + "permission" + ChatColor.RED + " to do this.");
 				}
 			}else{
